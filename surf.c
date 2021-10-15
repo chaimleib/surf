@@ -1845,12 +1845,14 @@ clipboard(Client *c, const Arg *a)
 {
 	if (a->i) { /* load clipboard uri */
 		gtk_clipboard_request_text(gtk_clipboard_get(
-		                           GDK_SELECTION_PRIMARY),
+		                           GDK_SELECTION_CLIPBOARD),
 		                           pasteuri, c);
 	} else { /* copy uri */
+		const char *uri =  c->targeturi ? c->targeturi : geturi(c);
 		gtk_clipboard_set_text(gtk_clipboard_get(
-		                       GDK_SELECTION_PRIMARY), c->targeturi
-		                       ? c->targeturi : geturi(c), -1);
+		                       GDK_SELECTION_PRIMARY), uri, -1);
+		gtk_clipboard_set_text(gtk_clipboard_get(
+		                       GDK_SELECTION_CLIPBOARD), uri, -1);
 	}
 }
 
